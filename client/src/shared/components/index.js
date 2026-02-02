@@ -1,1 +1,2 @@
-// Export: Layout, Header
+export { Layout } from './Layout';
+export { Header } from './Header';

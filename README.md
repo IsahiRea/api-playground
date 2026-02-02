@@ -12,7 +12,7 @@ Every developer has been here:
 
 - **"The webhook payload looks wrong"** — You're debugging an integration, but you need to deploy to staging just to see what's being sent.
 
-- **"Setting up a mock server is a whole thing"** — You *could* spin up a quick Express server, but that's 30 minutes of boilerplate for something you'll delete tomorrow.
+- **"Setting up a mock server is a whole thing"** — You _could_ spin up a quick Express server, but that's 30 minutes of boilerplate for something you'll delete tomorrow.
 
 API Playground removes this friction. Point, click, mock.
 
@@ -37,11 +37,11 @@ Client runs on `http://localhost:5173`, server on `http://localhost:3001`.
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| Frontend | React 19, Vite |
-| Backend | Node.js, Express, Socket.io |
-| Fake Data | @faker-js/faker |
+| Layer     | Technology                  |
+| --------- | --------------------------- |
+| Frontend  | React 19, Vite              |
+| Backend   | Node.js, Express, Socket.io |
+| Fake Data | @faker-js/faker             |
 
 ## Architecture
 
@@ -66,10 +66,12 @@ api-playground/
 ```
 
 **Two Server Paths:**
+
 - `/api/*` — Management API for creating, updating, deleting endpoints
 - `/mock/*` — Where user-created endpoints are mounted and served
 
 **Real-time Flow:**
+
 1. Request hits `/mock/users`
 2. Server matches to user-defined endpoint
 3. Faker templates in response body are processed
