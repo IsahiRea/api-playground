@@ -31,10 +31,10 @@
 
 ## Phase 2: Backend Core
 
-- [ ] Implement `endpointStore.js` (in-memory CRUD)
-- [ ] Create `/api/endpoints` routes
-- [ ] Implement `mockRouter.js` (dynamic route registration)
-- [ ] Add request capture middleware
+- [x] Implement `endpointStore.js` (in-memory CRUD)
+- [x] Create `/api/endpoints` routes
+- [x] Implement `mockRouter.js` (dynamic route registration)
+- [x] Add request capture middleware
 - [x] Set up Socket.io with events
 - [x] Add CORS middleware for Vercel frontend
 

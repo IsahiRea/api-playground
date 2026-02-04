@@ -1,8 +1,10 @@
 import express from 'express';
 import { createServer } from 'http';
 import { env, ROUTE_PREFIX, LIMITS } from './config/index.js';
-import { corsMiddleware } from './middleware/index.js';
+import { corsMiddleware, requestCaptureMiddleware } from './middleware/index.js';
 import { setupSocket } from './socket.js';
+import { endpointsRouter } from './routes/index.js';
+import { mockRouterMiddleware } from './services/mockRouter.js';
 
 // Create Express app
 const app = express();
@@ -20,20 +22,11 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// API routes placeholder (implemented in Phase 2)
-app.use(ROUTE_PREFIX.API, (_req, _res, next) => {
-  // Routes will be mounted here in Phase 2
-  next();
-});
+// API routes
+app.use(`${ROUTE_PREFIX.API}/endpoints`, endpointsRouter);
 
-// Mock routes placeholder (implemented in Phase 2)
-app.use(ROUTE_PREFIX.MOCK, (req, res) => {
-  res.status(404).json({
-    error: 'No mock endpoint found',
-    path: req.path,
-    method: req.method,
-  });
-});
+// Mock routes - dynamically registered endpoints with request logging
+app.use(ROUTE_PREFIX.MOCK, requestCaptureMiddleware, mockRouterMiddleware);
 
 // 404 handler
 app.use((_req, res) => {

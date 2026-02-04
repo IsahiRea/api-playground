@@ -1,2 +1,2 @@
 export { corsMiddleware } from './corsConfig.js';
-// requestCapture will be implemented in Phase 2
+export { requestCaptureMiddleware, getRequestLogs, clearRequestLogs } from './requestCapture.js';
