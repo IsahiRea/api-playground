@@ -1,6 +1,7 @@
 # System Architecture
 
 ## Project Structure
+
 ```
 api-playground/
 ├── docs/                      # Project documentation
@@ -34,6 +35,7 @@ api-playground/
 ## Data Models
 
 ### Endpoint
+
 ```javascript
 {
   id: "uuid",
@@ -51,6 +53,7 @@ api-playground/
 ```
 
 ### Request Log
+
 ```javascript
 {
   id: "uuid",
@@ -69,36 +72,39 @@ api-playground/
 ## API Design
 
 ### Management API (`/api/*`)
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /api/endpoints | List all endpoints |
-| POST | /api/endpoints | Create endpoint |
-| PUT | /api/endpoints/:id | Update endpoint |
-| DELETE | /api/endpoints/:id | Delete endpoint |
-| POST | /api/endpoints/:id/toggle | Enable/disable |
-| POST | /api/faker/preview | Preview Faker template output |
+
+| Method | Endpoint                  | Description                   |
+| ------ | ------------------------- | ----------------------------- |
+| GET    | /api/endpoints            | List all endpoints            |
+| POST   | /api/endpoints            | Create endpoint               |
+| PUT    | /api/endpoints/:id        | Update endpoint               |
+| DELETE | /api/endpoints/:id        | Delete endpoint               |
+| POST   | /api/endpoints/:id/toggle | Enable/disable                |
+| POST   | /api/faker/preview        | Preview Faker template output |
 
 ### Mock Server (`/mock/*`)
+
 All user-created endpoints mounted here.
+
 - User creates `GET /users` -> accessible at `GET /mock/users`
 - User creates `POST /orders/:id` -> accessible at `POST /mock/orders/:id`
 
 ## WebSocket Events
 
-| Event | Direction | Payload |
-|-------|-----------|---------|
-| `request:new` | Server -> Client | Request log entry |
+| Event              | Direction        | Payload                   |
+| ------------------ | ---------------- | ------------------------- |
+| `request:new`      | Server -> Client | Request log entry         |
 | `request:complete` | Server -> Client | Updated log with response |
-| `endpoints:sync` | Server -> Client | Full endpoint list |
-| `subscribe:logs` | Client -> Server | Start receiving logs |
+| `endpoints:sync`   | Server -> Client | Full endpoint list        |
+| `subscribe:logs`   | Client -> Server | Start receiving logs      |
 
 ## Critical Files
 
-| File | Purpose |
-|------|---------|
-| `server/src/services/mockRouter.js` | Dynamic Express route registration |
-| `server/src/services/fakerService.js` | Template parsing + Faker generation |
-| `server/src/socket.js` | WebSocket setup and events |
-| `client/src/features/endpoints/components/EndpointBuilder.jsx` | Main endpoint creation form |
-| `client/src/features/request-log/context/SocketContext.jsx` | WebSocket connection management |
-| `client/src/css/index.css` | Design tokens (CSS custom properties) |
+| File                                                           | Purpose                               |
+| -------------------------------------------------------------- | ------------------------------------- |
+| `server/src/services/mockRouter.js`                            | Dynamic Express route registration    |
+| `server/src/services/fakerService.js`                          | Template parsing + Faker generation   |
+| `server/src/socket.js`                                         | WebSocket setup and events            |
+| `client/src/features/endpoints/components/EndpointBuilder.jsx` | Main endpoint creation form           |
+| `client/src/features/request-log/context/SocketContext.jsx`    | WebSocket connection management       |
+| `client/src/css/index.css`                                     | Design tokens (CSS custom properties) |
