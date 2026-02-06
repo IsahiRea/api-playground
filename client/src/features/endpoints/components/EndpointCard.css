@@ -1,0 +1,118 @@
+/* EndpointCard - Single endpoint display */
+
+.endpoint-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: box-shadow var(--transition-fast), opacity var(--transition-fast);
+}
+
+.endpoint-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.endpoint-card--disabled {
+  opacity: 0.6;
+}
+
+.endpoint-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.endpoint-card__path {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  word-break: break-all;
+}
+
+.endpoint-card__body {
+  flex: 1;
+}
+
+.endpoint-card__name {
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--color-text);
+}
+
+.endpoint-card__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.endpoint-card__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+}
+
+.endpoint-card__toggle input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--color-primary-600);
+}
+
+.endpoint-card__toggle-label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.endpoint-card__buttons {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.endpoint-card__btn {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.endpoint-card__btn:hover {
+  background-color: var(--color-bg-muted);
+}
+
+.endpoint-card__btn--edit:hover {
+  border-color: var(--color-primary-500);
+  color: var(--color-primary-600);
+}
+
+.endpoint-card__btn--delete:hover {
+  border-color: var(--color-error-500);
+  color: var(--color-error-600);
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  .endpoint-card {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .endpoint-card__header {
+    flex-shrink: 0;
+    min-width: 200px;
+  }
+
+  .endpoint-card__actions {
+    flex-direction: row;
+    align-items: center;
+    margin-left: auto;
+  }
+}

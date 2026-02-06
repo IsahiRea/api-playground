@@ -1,0 +1,46 @@
+/* DashboardPage - Main layout */
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - var(--header-height));
+}
+
+.dashboard__main {
+  flex: 1;
+  padding: var(--space-4);
+  max-width: var(--max-width-content);
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Modal overlay */
+.dashboard__modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.dashboard__modal {
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+  .dashboard__main {
+    padding: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .dashboard__main {
+    padding: var(--space-8);
+  }
+}
