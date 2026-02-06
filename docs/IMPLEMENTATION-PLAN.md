@@ -40,13 +40,13 @@
 
 ## Phase 3: Endpoint Management UI
 
-- [ ] Build EndpointCard component
-- [ ] Build EndpointList component
-- [ ] Build EndpointBuilder form (create/edit)
-- [ ] Create MethodBadge component (color-coded)
-- [ ] Build ResponseEditor (JSON editing)
-- [ ] Create useEndpoints hook
-- [ ] Wire up to backend API
+- [x] Build EndpointCard component
+- [x] Build EndpointList component
+- [x] Build EndpointBuilder form (create/edit)
+- [x] Create MethodBadge component (color-coded)
+- [x] Build ResponseEditor (JSON editing)
+- [x] Create useEndpoints hook
+- [x] Wire up to backend API
 
 ## Phase 4: Real-time Request Logging
 

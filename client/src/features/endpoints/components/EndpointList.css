@@ -1,0 +1,77 @@
+/* EndpointList - Container for endpoint cards */
+
+.endpoint-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.endpoint-list--loading,
+.endpoint-list--error {
+  padding: var(--space-8);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.endpoint-list--error {
+  color: var(--color-error-600);
+}
+
+.endpoint-list__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.endpoint-list__title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.endpoint-list__add-btn {
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: white;
+  background-color: var(--color-primary-600);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.endpoint-list__add-btn:hover {
+  background-color: var(--color-primary-700);
+}
+
+.endpoint-list__empty {
+  padding: var(--space-8);
+  text-align: center;
+  color: var(--color-text-muted);
+  background-color: var(--color-bg-muted);
+  border-radius: var(--radius-lg);
+}
+
+.endpoint-list__empty p {
+  margin: var(--space-2) 0;
+}
+
+.endpoint-list__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (min-width: 768px) {
+  .endpoint-list__header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .endpoint-list__add-btn {
+    width: auto;
+  }
+}
