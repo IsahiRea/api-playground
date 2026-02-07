@@ -1,11 +1,15 @@
-// Main view: composes EndpointList + RequestLogPanel
-
 import { useState, useCallback } from 'react';
 import {
   EndpointList,
   EndpointBuilder,
   useEndpoints,
 } from '../features/endpoints';
+import {
+  RequestLogPanel,
+  RequestDetails,
+  useRequestLog,
+  useWebSocket,
+} from '../features/request-log';
 import './DashboardPage.css';
 
 export function DashboardPage() {
@@ -19,8 +23,12 @@ export function DashboardPage() {
     toggleEndpoint,
   } = useEndpoints();
 
+  const { connected } = useWebSocket();
+  const { logs, selectedLog, clearLogs, selectLog, closeDetails } = useRequestLog();
+
   const [showBuilder, setShowBuilder] = useState(false);
   const [editingEndpoint, setEditingEndpoint] = useState(null);
+  const [showLogPanel, setShowLogPanel] = useState(false);
 
   const handleAdd = useCallback(() => {
     setEditingEndpoint(null);
@@ -73,6 +81,38 @@ export function DashboardPage() {
         />
       </main>
 
+      {/* Desktop: always visible sidebar. Mobile: overlay panel */}
+      <div className={`dashboard__sidebar ${showLogPanel ? 'dashboard__sidebar--open' : ''}`}>
+        {showLogPanel && (
+          <div
+            className="dashboard__sidebar-backdrop"
+            onClick={() => setShowLogPanel(false)}
+          />
+        )}
+        <RequestLogPanel
+          logs={logs}
+          connected={connected}
+          onSelect={selectLog}
+          onClear={clearLogs}
+          onClose={() => setShowLogPanel(false)}
+        />
+      </div>
+
+      {/* Mobile floating action button */}
+      <button
+        className="dashboard__log-fab"
+        onClick={() => setShowLogPanel(true)}
+        type="button"
+        aria-label="Open request log"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M3 4h14M3 8h14M3 12h10M3 16h7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+        {logs.length > 0 && (
+          <span className="dashboard__log-fab-badge">{logs.length}</span>
+        )}
+      </button>
+
       {showBuilder && (
         <div className="dashboard__modal-overlay" onClick={handleCancel}>
           <div
@@ -86,6 +126,10 @@ export function DashboardPage() {
             />
           </div>
         </div>
+      )}
+
+      {selectedLog && (
+        <RequestDetails log={selectedLog} onClose={closeDetails} />
       )}
     </div>
   );

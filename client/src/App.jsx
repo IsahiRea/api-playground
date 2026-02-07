@@ -1,11 +1,14 @@
 import { Layout } from './shared/components';
 import { DashboardPage } from './pages';
+import { SocketProvider } from './features/request-log';
 
 function App() {
   return (
-    <Layout>
-      <DashboardPage />
-    </Layout>
+    <SocketProvider>
+      <Layout>
+        <DashboardPage />
+      </Layout>
+    </SocketProvider>
   );
 }
 

@@ -78,9 +78,37 @@ api-playground/
 4. Socket.io broadcasts `request:new` event to connected clients
 5. Request log updates live in the browser
 
+## Commands
+
+```bash
+npm install          # Install all dependencies
+npm run dev          # Start client + server concurrently
+npm run dev:client   # Client only (http://localhost:5173)
+npm run dev:server   # Server only (http://localhost:3001)
+npm run lint         # Lint both workspaces
+npm run build        # Production build (client)
+```
+
+## Documentation
+
+| Document | Description |
+| -------- | ----------- |
+| [PRD](docs/PRD.md) | Product requirements and success metrics |
+| [Architecture](docs/ARCHITECTURE.md) | System design, data models, API surface |
+| [Implementation Plan](docs/IMPLEMENTATION-PLAN.md) | Phased build plan with progress tracking |
+| [Insights](docs/INSIGHTS.md) | Patterns, trade-offs, and lessons learned |
+
 ## Project Status
 
-**In Development** — This is an MVP focused on the core workflow: create endpoint, see requests, iterate fast.
+**In Development** — Core workflow is functional: create endpoints, see requests in real-time, inspect full details.
+
+- [x] Phase 1: Project setup + design system
+- [x] Phase 2: Backend core (CRUD, mock routing, request capture)
+- [x] Phase 3: Endpoint management UI
+- [x] Phase 4: Real-time request logging
+- [ ] Phase 5: Faker.js integration
+- [ ] Phase 6: API tester feature
+- [ ] Phase 7: Polish + deploy
 
 ---
 

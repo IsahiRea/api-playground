@@ -98,6 +98,28 @@ All user-created endpoints mounted here.
 | `endpoints:sync`   | Server -> Client | Full endpoint list        |
 | `subscribe:logs`   | Client -> Server | Start receiving logs      |
 
+## Request Log Feature Architecture
+
+The request-log feature follows a layered architecture:
+
+```
+lib/socket.js                    Singleton socket.io-client instance (lazy init)
+    ↓
+context/socketContext.js         React Context object (separate file for fast refresh)
+context/SocketContext.jsx        SocketProvider — manages connect/disconnect lifecycle
+    ↓
+useWebSocket.js                  Thin hook consuming SocketContext
+useRequestLog.js                 Reducer-based state: logs array, selection, clear
+    ↓
+components/RequestLogPanel.jsx   Sidebar with live feed, connection indicator
+components/RequestLogItem.jsx    Single row: method badge, path, status, duration
+components/RequestDetails.jsx    Modal with full request/response inspection
+```
+
+**Two-phase request lifecycle**: The server emits `request:new` (pending) when a mock endpoint is hit, then `request:complete` (with response and duration) after the response is sent. The client reducer matches these by request `id`. If `complete` arrives before `new` (race condition), it's inserted directly as a completed entry.
+
+**Layout strategy**: Mobile-first. On small screens the log panel is a slide-up overlay triggered by a floating action button. At 1024px+ it becomes a static sidebar column using `--sidebar-width`.
+
 ## Critical Files
 
 | File                                                           | Purpose                               |
@@ -106,5 +128,8 @@ All user-created endpoints mounted here.
 | `server/src/services/fakerService.js`                          | Template parsing + Faker generation   |
 | `server/src/socket.js`                                         | WebSocket setup and events            |
 | `client/src/features/endpoints/components/EndpointBuilder.jsx` | Main endpoint creation form           |
-| `client/src/features/request-log/context/SocketContext.jsx`    | WebSocket connection management       |
+| `client/src/features/request-log/context/SocketContext.jsx`    | SocketProvider — connection lifecycle  |
+| `client/src/features/request-log/context/socketContext.js`     | SocketContext object (fast refresh)    |
+| `client/src/features/request-log/useRequestLog.js`             | Request log state reducer + hook      |
+| `client/src/lib/socket.js`                                     | Singleton socket.io-client factory    |
 | `client/src/css/index.css`                                     | Design tokens (CSS custom properties) |
