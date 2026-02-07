@@ -50,12 +50,12 @@
 
 ## Phase 4: Real-time Request Logging
 
-- [ ] Create SocketContext provider
-- [ ] Build useWebSocket hook
-- [ ] Build RequestLogPanel (sidebar)
-- [ ] Build RequestLogItem component
-- [ ] Build RequestDetails modal
-- [ ] Create useRequestLog hook
+- [x] Create SocketContext provider
+- [x] Build useWebSocket hook
+- [x] Build RequestLogPanel (sidebar)
+- [x] Build RequestLogItem component
+- [x] Build RequestDetails modal
+- [x] Create useRequestLog hook
 
 ## Phase 5: Faker.js Integration
 
