@@ -74,6 +74,8 @@ export const fakerApi = {
       method: 'POST',
       body: { template },
     }),
+
+  methods: () => request(API_ENDPOINTS.FAKER_METHODS),
 };
 
 export { ApiError };
