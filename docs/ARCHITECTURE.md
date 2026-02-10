@@ -81,6 +81,7 @@ api-playground/
 | DELETE | /api/endpoints/:id        | Delete endpoint               |
 | POST   | /api/endpoints/:id/toggle | Enable/disable                |
 | POST   | /api/faker/preview        | Preview Faker template output |
+| GET    | /api/faker/methods        | List available Faker methods  |
 
 ### Mock Server (`/mock/*`)
 
@@ -120,6 +121,32 @@ components/RequestDetails.jsx    Modal with full request/response inspection
 
 **Layout strategy**: Mobile-first. On small screens the log panel is a slide-up overlay triggered by a floating action button. At 1024px+ it becomes a static sidebar column using `--sidebar-width`.
 
+## Faker Integration Architecture
+
+The faker feature has two sides: a backend processing pipeline (Phase 2) and a frontend template picker with live preview (Phase 5).
+
+```
+Backend (already existed):
+  fakerService.js                 processTemplate() — regex-based {{faker.x.y()}} replacement
+      ↓                           processBody() — recursive object/array/string processing
+  mockRouter.js                   Calls processBody() when serving mock responses
+
+Backend (Phase 5):
+  routes/faker.js                 POST /preview — accepts string or object, returns processed result
+                                  GET /methods — introspects faker modules, returns method catalog
+
+Frontend (Phase 5):
+  constants/FAKER_TEMPLATES.js    Curated template categories for the picker UI
+      ↓
+  ResponseEditor.jsx              Template picker panel (collapsible grid of clickable chips)
+                                  Cursor-position insertion via textareaRef
+                                  Preview button → calls fakerApi.preview() → shows generated output
+```
+
+**Server-side preview**: The preview sends templates to the server rather than running Faker client-side. This guarantees the preview matches exactly what mock endpoints will return, since both use the same `processBody()` code path.
+
+**Cursor insertion**: Clicking a template chip inserts the template string at the textarea's current cursor position using `selectionStart`/`selectionEnd`, then restores focus with `requestAnimationFrame` to ensure React's controlled value update completes first.
+
 ## Critical Files
 
 | File                                                           | Purpose                               |
@@ -132,4 +159,6 @@ components/RequestDetails.jsx    Modal with full request/response inspection
 | `client/src/features/request-log/context/socketContext.js`     | SocketContext object (fast refresh)    |
 | `client/src/features/request-log/useRequestLog.js`             | Request log state reducer + hook      |
 | `client/src/lib/socket.js`                                     | Singleton socket.io-client factory    |
-| `client/src/css/index.css`                                     | Design tokens (CSS custom properties) |
+| `client/src/constants/FAKER_TEMPLATES.js`                      | Template categories for picker UI     |
+| `server/src/routes/faker.js`                                   | Faker preview + methods API routes    |
+| `client/src/css/tokens.css`                                    | Design tokens (CSS custom properties) |

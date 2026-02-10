@@ -1,6 +1,10 @@
-# Implementation Insights — Phase 4: Real-time Request Logging
+# Implementation Insights
 
-A collection of patterns, trade-offs, and lessons learned while building the request logging feature.
+A collection of patterns, trade-offs, and lessons learned across phases.
+
+---
+
+## Phase 4: Real-time Request Logging
 
 ## Socket.io Client Patterns
 
@@ -100,3 +104,62 @@ This leverages the existing design tokens (`--color-success-*`, `--color-warning
 ## Event Constant Mirroring
 
 Keeping server and client event strings in sync via shared constant files prevents subtle bugs from typos in event names. A `request:new` vs `request.new` mismatch would silently fail — the listener would never fire, with no error to debug. Constants make this a compile-time (or at least import-time) concern.
+
+---
+
+## Phase 5: Faker.js Integration
+
+### Server-Side Preview vs. Client-Side Faker
+
+The preview feature sends template data to `POST /api/faker/preview` on the server rather than bundling `@faker-js/faker` into the client bundle. This is a deliberate trade-off:
+
+- **Consistency**: Both the preview and the actual mock endpoint responses run through the exact same `processBody()` function. If Faker were also running client-side, version mismatches, locale differences, or divergent method availability could cause the preview to show output that doesn't match what the mock endpoint actually returns.
+- **Bundle size**: `@faker-js/faker` is ~800KB minified. Keeping it server-only avoids inflating the client bundle for a feature that's used occasionally.
+- **Cost**: One extra network round-trip per preview click. Acceptable for a developer tool where previews are infrequent and latency to localhost is negligible.
+
+### Cursor-Position Insertion with Controlled Inputs
+
+React's controlled textarea (`value` + `onChange`) re-renders the entire value on every state change, which resets the browser's native cursor position. To insert text at the cursor:
+
+1. Read `selectionStart` / `selectionEnd` from the DOM element via `ref`
+2. Splice the template string into the value at that position
+3. Call `onChange` with the new value (triggers React re-render)
+4. Use `requestAnimationFrame` to set the cursor position *after* React's re-render completes
+
+The `requestAnimationFrame` is critical — without it, `setSelectionRange()` runs before the DOM updates with the new value, and the browser ignores it. This is one of the few places where React's declarative model needs imperative DOM coordination.
+
+```js
+const insertTemplate = useCallback((template) => {
+  const textarea = textareaRef.current;
+  const start = textarea.selectionStart;
+  const newValue = value.slice(0, start) + template + value.slice(textarea.selectionEnd);
+  onChange(newValue);
+
+  requestAnimationFrame(() => {
+    textarea.focus();
+    textarea.setSelectionRange(start + template.length, start + template.length);
+  });
+}, [value, onChange]);
+```
+
+### Template Parsing via Regex
+
+The backend's `processTemplate()` uses a single regex: `/\{\{faker\.([a-zA-Z]+)\.([a-zA-Z]+)\((.*?)\)\}\}/g`. This captures three groups: module, method, and arguments. The argument string is parsed as JSON (`JSON.parse(\`[\${args}]\`)`), falling back to a raw string if parsing fails.
+
+This approach is simple and fast for the expected input (developer-authored templates), but has a deliberate limitation: it doesn't support nested templates like `{{faker.helpers.arrayElement({{faker.person.firstName()}})}}`. Nesting would require a recursive parser or AST-based approach — complexity that isn't justified for the MVP where templates are always flat substitutions.
+
+### Curating a Template Catalog
+
+The `FAKER_TEMPLATE_CATEGORIES` constant is a curated subset of Faker's full API surface. Faker.js exposes 200+ methods across 30+ modules, but most are irrelevant for API mocking. The catalog focuses on 5 categories (~20 methods) that cover the most common mock data needs: user profiles (Person), authentication/contact (Internet), addresses (Location), e-commerce (Commerce), and business entities (Company).
+
+This curation is a UX decision — showing every available method would overwhelm the picker. The `GET /methods` endpoint still exposes the full catalog for advanced users who want to type templates manually.
+
+### Responsive Template Grid
+
+The template picker uses CSS Grid with a progressive column layout:
+
+- **Mobile** (default): `grid-template-columns: 1fr` — single column, each category stacks vertically
+- **768px+**: `repeat(2, 1fr)` — two columns, categories flow naturally
+- **1024px+**: `repeat(3, 1fr)` — three columns, full desktop width
+
+This is simpler than a flexbox approach because Grid auto-places items without needing `flex-basis` calculations or explicit wrapping logic. The categories are independent blocks that don't need to align with each other, making Grid's auto-placement ideal.

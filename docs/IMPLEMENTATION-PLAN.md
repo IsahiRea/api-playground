@@ -59,11 +59,13 @@
 
 ## Phase 5: Faker.js Integration
 
-- [ ] Implement fakerService on backend
-- [ ] Create template parser ({{faker.x.y()}} syntax)
-- [ ] Add /api/faker/preview endpoint
-- [ ] Add Faker template hints in ResponseEditor
-- [ ] Create common templates constants
+- [x] Implement faker route handlers (`POST /preview`, `GET /methods`)
+- [x] Wire up fakerRouter in server (`/api/faker`)
+- [x] Create `FAKER_TEMPLATE_CATEGORIES` constant (5 categories)
+- [x] Add `FAKER_METHODS` URL + `fakerApi.methods()` to API client
+- [x] Enhance ResponseEditor with template picker (collapsible grid, cursor insertion)
+- [x] Add live preview button (calls `/api/faker/preview`, shows generated output)
+- [x] Add responsive CSS for template grid (1/2/3 columns) and preview panel
 
 ## Phase 6: API Tester Feature
 
