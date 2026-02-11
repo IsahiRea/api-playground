@@ -3,7 +3,7 @@ import { createServer } from 'http';
 import { env, ROUTE_PREFIX, LIMITS } from './config/index.js';
 import { corsMiddleware, requestCaptureMiddleware } from './middleware/index.js';
 import { setupSocket } from './socket.js';
-import { endpointsRouter, fakerRouter } from './routes/index.js';
+import { endpointsRouter, fakerRouter, proxyRouter } from './routes/index.js';
 import { mockRouterMiddleware } from './services/mockRouter.js';
 
 // Create Express app
@@ -25,6 +25,7 @@ app.get('/health', (_req, res) => {
 // API routes
 app.use(`${ROUTE_PREFIX.API}/endpoints`, endpointsRouter);
 app.use(`${ROUTE_PREFIX.API}/faker`, fakerRouter);
+app.use(`${ROUTE_PREFIX.API}/proxy`, proxyRouter);
 
 // Mock routes - dynamically registered endpoints with request logging
 app.use(ROUTE_PREFIX.MOCK, requestCaptureMiddleware, mockRouterMiddleware);

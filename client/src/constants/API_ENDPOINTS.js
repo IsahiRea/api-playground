@@ -12,6 +12,9 @@ export const API_ENDPOINTS = {
   FAKER_PREVIEW: `${API_BASE}/api/faker/preview`,
   FAKER_METHODS: `${API_BASE}/api/faker/methods`,
 
+  // Proxy
+  PROXY: `${API_BASE}/api/proxy`,
+
   // Mock server base
   MOCK_BASE: `${API_BASE}/mock`,
 };

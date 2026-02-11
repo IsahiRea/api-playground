@@ -69,11 +69,15 @@
 
 ## Phase 6: API Tester Feature
 
-- [ ] Build RequestForm (method, URL, headers, body)
-- [ ] Build HeadersEditor (key-value pairs)
-- [ ] Build ResponseViewer (formatted JSON)
-- [ ] Create useApiTester hook
-- [ ] Build TesterPage
+- [x] Install React Router, add client-side routing (`/` and `/tester`)
+- [x] Update Header with NavLink for active route highlighting
+- [x] Create server-side proxy endpoint (`POST /api/proxy`)
+- [x] Add PROXY constant + proxyApi helper to API client
+- [x] Build RequestForm (method, URL, body, send button)
+- [x] Build HeadersEditor (key-value pairs, presets)
+- [x] Build ResponseViewer (status badge, body/headers tabs, formatted JSON)
+- [x] Create useApiTester hook (state management + sendRequest placeholder)
+- [x] Build TesterPage (two-column desktop layout)
 
 ## Phase 7: Polish & Deploy
 

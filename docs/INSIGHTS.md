@@ -163,3 +163,34 @@ The template picker uses CSS Grid with a progressive column layout:
 - **1024px+**: `repeat(3, 1fr)` — three columns, full desktop width
 
 This is simpler than a flexbox approach because Grid auto-places items without needing `flex-basis` calculations or explicit wrapping logic. The categories are independent blocks that don't need to align with each other, making Grid's auto-placement ideal.
+
+---
+
+## Phase 6: API Tester Feature
+
+### Client-Side Routing with React Router 7
+
+React Router v7 consolidated imports into a single `react-router` package — the separate `react-router-dom` install is no longer needed. `NavLink`'s `className` prop accepts a render callback `({isActive}) => string`, which integrates cleanly with BEM naming by conditionally appending the `--active` modifier. The `end` prop on the root route (`/`) prevents it from matching every path.
+
+### Server-Side Proxy Pattern
+
+The proxy endpoint (`POST /api/proxy`) exists to work around browser CORS restrictions. When a user wants to test an external API (e.g., `https://api.github.com/users`), the browser blocks the request due to same-origin policy. By forwarding it through the Express server, the request comes from Node.js (no CORS) and the response is relayed back to the client.
+
+The proxy uses semantically correct HTTP status codes for its own error handling: `502 Bad Gateway` for unreachable targets (server is acting as an intermediary that failed), and `504 Gateway Timeout` for requests exceeding the 10-second limit.
+
+### Dual Request Path: Direct vs. Proxy
+
+The `sendRequest()` function in `useApiTester.js` needs to decide between two paths:
+
+- **Direct fetch**: When the URL starts with `MOCK_BASE` (i.e., `http://localhost:3001/mock/...`), the browser can fetch directly since the mock server and API share the same origin. This avoids an unnecessary hop through the proxy and means the request shows up in the real-time log as a genuine incoming request.
+- **Proxy fetch**: When the URL targets an external domain, the request must go through `POST /api/proxy` to bypass CORS.
+
+Both paths normalize the response to the same shape: `{ status, statusText, headers, data, timing }`. This allows `ResponseViewer` to render identically regardless of the path taken.
+
+### `void` Expressions for Lint Compliance in Placeholder Code
+
+When writing a hook placeholder that will be completed later, unused variables trigger `no-unused-vars` lint errors. Using `void variable` explicitly marks them as intentionally referenced without side effects. This is preferable to `// eslint-disable` comments because it's visible, self-documenting, and will naturally be removed when the real implementation replaces the placeholder.
+
+### Data-Attribute Driven Styling for Method Selectors
+
+The method `<select>` element uses `data-method={method.toLowerCase()}` to drive its background color through CSS attribute selectors (`[data-method="post"]`). This avoids JavaScript-computed inline styles and keeps the color logic in CSS where it belongs. The same token variables (`--color-method-*`) are reused from the existing MethodBadge component, maintaining visual consistency.

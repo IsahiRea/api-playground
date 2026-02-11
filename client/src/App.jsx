@@ -1,14 +1,20 @@
+import { BrowserRouter, Routes, Route } from 'react-router';
 import { Layout } from './shared/components';
-import { DashboardPage } from './pages';
+import { DashboardPage, TesterPage } from './pages';
 import { SocketProvider } from './features/request-log';
 
 function App() {
   return (
-    <SocketProvider>
-      <Layout>
-        <DashboardPage />
-      </Layout>
-    </SocketProvider>
+    <BrowserRouter>
+      <SocketProvider>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<DashboardPage />} />
+            <Route path="/tester" element={<TesterPage />} />
+          </Routes>
+        </Layout>
+      </SocketProvider>
+    </BrowserRouter>
   );
 }
 

@@ -82,6 +82,7 @@ api-playground/
 | POST   | /api/endpoints/:id/toggle | Enable/disable                |
 | POST   | /api/faker/preview        | Preview Faker template output |
 | GET    | /api/faker/methods        | List available Faker methods  |
+| POST   | /api/proxy                | Forward request to external URL |
 
 ### Mock Server (`/mock/*`)
 
@@ -147,6 +148,32 @@ Frontend (Phase 5):
 
 **Cursor insertion**: Clicking a template chip inserts the template string at the textarea's current cursor position using `selectionStart`/`selectionEnd`, then restores focus with `requestAnimationFrame` to ensure React's controlled value update completes first.
 
+## API Tester Architecture
+
+The tester feature provides a built-in Postman-like interface for sending HTTP requests and viewing responses.
+
+```
+Client-side routing (React Router 7):
+  App.jsx                           BrowserRouter → Routes → / | /tester
+  Header.jsx                        NavLink with isActive callback for route highlighting
+
+Proxy route:
+  server/src/routes/proxy.js        POST /api/proxy — forwards requests to external URLs
+                                    Uses native fetch, 10s timeout, returns normalized response
+
+Hook + components:
+  useApiTester.js                   State: method, url, headers[], body, response, error, isLoading
+      ↓                             sendRequest() — local mock = direct fetch, external = proxy
+  TesterPage.jsx                    Page composition — request form + response viewer
+  RequestForm.jsx                   Method select + URL input + body textarea + send button
+  HeadersEditor.jsx                 Dynamic key-value rows with add/remove + preset buttons
+  ResponseViewer.jsx                4 states: empty, loading, error, success (status + tabs)
+```
+
+**Local vs. proxy routing**: When the target URL starts with `MOCK_BASE` (e.g., `http://localhost:3001/mock/...`), the tester fetches directly from the browser — no proxy needed since both client and server share the same origin in development. External URLs are forwarded through `POST /api/proxy` to avoid CORS restrictions.
+
+**Response normalization**: Both paths produce the same shape: `{ status, statusText, headers, data, timing }`. The proxy endpoint measures timing server-side; direct fetch measures it client-side via `Date.now()` before/after.
+
 ## Critical Files
 
 | File                                                           | Purpose                               |
@@ -161,4 +188,7 @@ Frontend (Phase 5):
 | `client/src/lib/socket.js`                                     | Singleton socket.io-client factory    |
 | `client/src/constants/FAKER_TEMPLATES.js`                      | Template categories for picker UI     |
 | `server/src/routes/faker.js`                                   | Faker preview + methods API routes    |
+| `server/src/routes/proxy.js`                                   | Proxy for external API requests       |
+| `client/src/features/tester/useApiTester.js`                   | Tester hook — state + request logic   |
+| `client/src/features/tester/components/TesterPage.jsx`         | API Tester page composition           |
 | `client/src/css/tokens.css`                                    | Design tokens (CSS custom properties) |
