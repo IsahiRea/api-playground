@@ -1,0 +1,51 @@
+/* TesterPage — mobile first */
+
+.tester-page {
+  max-width: var(--max-width-content);
+  margin: 0 auto;
+  padding: var(--space-4);
+}
+
+.tester-page__header {
+  margin-bottom: var(--space-6);
+}
+
+.tester-page__title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+  margin: 0 0 var(--space-1);
+}
+
+.tester-page__subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* Content: single column on mobile */
+.tester-page__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.tester-page__request {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Desktop: two-column layout */
+@media (min-width: 1024px) {
+  .tester-page {
+    padding: var(--space-6);
+  }
+
+  .tester-page__content {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+}

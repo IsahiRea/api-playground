@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router';
 import './Header.css';
 
 export function Header() {
@@ -24,14 +25,25 @@ export function Header() {
         <nav className="header__nav" aria-label="Main navigation">
           <ul className="header__nav-list" role="list">
             <li>
-              <a href="/" className="header__nav-link header__nav-link--active">
+              <NavLink
+                to="/"
+                end
+                className={({ isActive }) =>
+                  `header__nav-link${isActive ? ' header__nav-link--active' : ''}`
+                }
+              >
                 Endpoints
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a href="/tester" className="header__nav-link">
+              <NavLink
+                to="/tester"
+                className={({ isActive }) =>
+                  `header__nav-link${isActive ? ' header__nav-link--active' : ''}`
+                }
+              >
                 Tester
-              </a>
+              </NavLink>
             </li>
           </ul>
         </nav>

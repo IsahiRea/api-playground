@@ -78,4 +78,10 @@ export const fakerApi = {
   methods: () => request(API_ENDPOINTS.FAKER_METHODS),
 };
 
+// Proxy — forward requests through the server
+export const proxyApi = {
+  send: (config) =>
+    request(API_ENDPOINTS.PROXY, { method: 'POST', body: config }),
+};
+
 export { ApiError };
