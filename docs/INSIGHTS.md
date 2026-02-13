@@ -194,3 +194,27 @@ When writing a hook placeholder that will be completed later, unused variables t
 ### Data-Attribute Driven Styling for Method Selectors
 
 The method `<select>` element uses `data-method={method.toLowerCase()}` to drive its background color through CSS attribute selectors (`[data-method="post"]`). This avoids JavaScript-computed inline styles and keeps the color logic in CSS where it belongs. The same token variables (`--color-method-*`) are reused from the existing MethodBadge component, maintaining visual consistency.
+
+---
+
+## Phase 7: Polish & Deploy
+
+### Context Splitting Pattern Reuse
+
+The toast system (`toastContext.js` + `ToastProvider.jsx` + `useToast.js`) follows the exact same pattern as Phase 4's socket context. The `useToast` hook was moved to its own `.js` file because Vite's fast refresh lint rule (`react-refresh/only-export-components`) rejects files that export both a component and a non-component function. This three-file split (context object, provider component, consumer hook) is now an established project convention for any context-based feature.
+
+### Error Boundary as Class Component
+
+React 19 still requires class components for error boundaries — there is no hooks equivalent for `getDerivedStateFromError` or `componentDidCatch`. This is one of the last remaining use cases for class components in modern React. The boundary wraps the entire tree outside of `BrowserRouter` so even routing errors are caught.
+
+### Client-Side File Download via Blob + createObjectURL
+
+The export feature creates a downloadable JSON file entirely client-side: `new Blob()` wraps the JSON string, `URL.createObjectURL()` generates a temporary URL, and a programmatically-clicked `<a>` element triggers the download. The `URL.revokeObjectURL()` call immediately after is important — without it, the browser holds a reference to the blob data in memory until the page unloads.
+
+### Touch Target Strategy
+
+Following WCAG 2.5.8, all interactive elements get `min-height: 44px` (and `min-width: 44px` for icon buttons) in the mobile-first base styles. At the 768px+ breakpoint, where users have mouse precision, these are relaxed back to their original compact sizes. This ensures mobile usability without bloating the desktop layout.
+
+### Full-Screen Mobile Modals
+
+On mobile, modals (EndpointBuilder, RequestDetails) fill the entire viewport — `width: 100%`, `height: 100%`, no border radius. At 768px+, they restore to centered cards with `max-width`, `max-height: 90vh`, and `border-radius`. This pattern prevents the awkward "floating card with no room to breathe" problem on small screens while maintaining the expected desktop modal UX.

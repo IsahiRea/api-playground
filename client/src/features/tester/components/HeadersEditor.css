@@ -22,6 +22,7 @@
   padding: var(--space-1) var(--space-3);
   font-size: var(--text-xs);
   font-weight: var(--font-medium);
+  min-height: 44px;
   color: var(--color-primary-600);
   background: none;
   border: 1px solid var(--color-primary-200);
@@ -44,6 +45,7 @@
 .headers-editor__preset {
   padding: var(--space-1) var(--space-2);
   font-size: var(--text-xs);
+  min-height: 44px;
   color: var(--color-text-muted);
   background-color: var(--color-bg-muted);
   border: 1px solid var(--color-border);
@@ -68,9 +70,8 @@
 
 .headers-editor__row {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: var(--space-2);
-  align-items: center;
 }
 
 .headers-editor__key,
@@ -97,8 +98,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  min-width: 44px;
+  min-height: 44px;
   font-size: var(--text-lg);
   color: var(--color-text-subtle);
   background: none;
@@ -112,11 +113,21 @@
   color: var(--color-error-500);
 }
 
-/* Tablet+ : grid layout for rows */
+/* Tablet+ : grid layout for rows, relax touch targets */
 @media (min-width: 768px) {
   .headers-editor__row {
     display: grid;
     grid-template-columns: 2fr 3fr 40px;
-    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .headers-editor__add-btn,
+  .headers-editor__preset {
+    min-height: auto;
+  }
+
+  .headers-editor__remove {
+    min-width: 32px;
+    min-height: 32px;
   }
 }

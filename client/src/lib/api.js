@@ -65,6 +65,12 @@ export const endpointsApi = {
     request(API_ENDPOINTS.TOGGLE_ENDPOINT(id), {
       method: 'POST',
     }),
+
+  import: (endpoints) =>
+    request(API_ENDPOINTS.IMPORT_ENDPOINTS, {
+      method: 'POST',
+      body: { endpoints },
+    }),
 };
 
 // Faker preview

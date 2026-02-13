@@ -25,6 +25,33 @@ router.get('/', (_req, res) => {
   res.json({ endpoints });
 });
 
+// POST /api/endpoints/import - Bulk import endpoints
+router.post('/import', async (req, res) => {
+  const { endpoints } = req.body;
+
+  if (!Array.isArray(endpoints)) {
+    return res.status(400).json({ error: 'endpoints must be an array' });
+  }
+
+  const created = [];
+  const errors = [];
+
+  for (const [index, ep] of endpoints.entries()) {
+    const result = createEndpoint(ep);
+    if (result.success) {
+      created.push(result.endpoint);
+    } else {
+      errors.push({ index, errors: result.errors });
+    }
+  }
+
+  if (created.length > 0) {
+    broadcastEndpoints();
+  }
+
+  res.status(201).json({ created, errors });
+});
+
 // GET /api/endpoints/:id - Get single endpoint
 router.get('/:id', (req, res) => {
   const endpoint = getEndpointById(req.params.id);

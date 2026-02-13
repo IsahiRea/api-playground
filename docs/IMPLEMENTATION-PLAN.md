@@ -81,10 +81,15 @@
 
 ## Phase 7: Polish & Deploy
 
-- [ ] Add loading states and error handling
-- [ ] Implement endpoint import/export (JSON)
-- [ ] Mobile-responsive refinements
-- [ ] Write README
+- [x] Toast notification system (success/error/info feedback on CRUD actions)
+- [x] Error boundary with crash recovery fallback UI
+- [x] Endpoint import/export (JSON file download/upload)
+- [x] Retry button on endpoint list error state
+- [x] Mobile touch target refinements (44px min)
+- [x] Full-screen modals on mobile, card-style at 768px+
+- [x] Responsive HeadersEditor (stacked on mobile, grid at 768px+)
+- [x] Responsive RequestDetails (single-column grid on mobile)
+- [x] Update documentation
 
 ## Commands
 

@@ -15,7 +15,7 @@ api-playground/
 │   │   │   ├── endpoints/     # Endpoint management
 │   │   │   ├── request-log/   # Real-time logging
 │   │   │   └── tester/        # API tester
-│   │   ├── shared/            # Reusable components
+│   │   ├── shared/            # Reusable components (ErrorBoundary, ToastProvider)
 │   │   ├── lib/               # API client, socket setup
 │   │   └── css/               # Layered CSS structure
 │   └── package.json
@@ -80,6 +80,7 @@ api-playground/
 | PUT    | /api/endpoints/:id        | Update endpoint               |
 | DELETE | /api/endpoints/:id        | Delete endpoint               |
 | POST   | /api/endpoints/:id/toggle | Enable/disable                |
+| POST   | /api/endpoints/import     | Bulk import endpoints         |
 | POST   | /api/faker/preview        | Preview Faker template output |
 | GET    | /api/faker/methods        | List available Faker methods  |
 | POST   | /api/proxy                | Forward request to external URL |
@@ -191,4 +192,46 @@ Hook + components:
 | `server/src/routes/proxy.js`                                   | Proxy for external API requests       |
 | `client/src/features/tester/useApiTester.js`                   | Tester hook — state + request logic   |
 | `client/src/features/tester/components/TesterPage.jsx`         | API Tester page composition           |
+| `client/src/shared/components/ToastProvider.jsx`               | Toast notification state + UI         |
+| `client/src/shared/components/useToast.js`                     | Toast consumer hook                   |
+| `client/src/shared/components/ErrorBoundary.jsx`               | Crash recovery fallback UI            |
+| `client/src/features/endpoints/endpointIO.js`                  | Import/export utilities               |
 | `client/src/css/tokens.css`                                    | Design tokens (CSS custom properties) |
+
+## Import/Export Architecture
+
+The import/export feature allows users to share endpoint collections as portable JSON files.
+
+```
+Export flow (client-only):
+  DashboardPage.handleExport()
+      ↓
+  endpointIO.exportEndpoints(endpoints)   Strips id/createdAt/updatedAt
+      ↓                                   Creates Blob + createObjectURL
+  Browser downloads .json file            No server roundtrip needed
+
+Import flow (client → server):
+  EndpointList <input type="file">
+      ↓
+  DashboardPage.handleImport(file)
+      ↓
+  endpointIO.validateImportData(data)     Client-side shape validation
+      ↓
+  endpointsApi.import(endpoints)          POST /api/endpoints/import
+      ↓
+  Server creates each via createEndpoint  Returns { created[], errors[] }
+      ↓
+  fetchEndpoints() refreshes list         Toast shows result
+```
+
+**Validation boundary**: The client validates the file shape (`{ endpoints: [...] }`), while the server validates individual endpoint fields (name, method, path) through the existing `createEndpoint` service. This avoids duplicating validation logic that could drift out of sync.
+
+## Toast Notification Architecture
+
+```
+shared/components/toastContext.js     Context object (separate file for fast refresh)
+shared/components/ToastProvider.jsx   useReducer for toast array, auto-dismiss via setTimeout
+shared/components/useToast.js         Consumer hook — returns { addToast(type, message) }
+```
+
+**Provider placement**: `ToastProvider` sits inside `SocketProvider` but outside `Layout`, so toasts render above all content (fixed position, z-index 1000). The toast container uses `aria-live="polite"` for screen reader announcements.
