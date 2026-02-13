@@ -1,8 +1,12 @@
 import { useState, useCallback } from 'react';
+import { useToast } from '../shared/components';
+import { endpointsApi } from '../lib/api';
 import {
   EndpointList,
   EndpointBuilder,
   useEndpoints,
+  exportEndpoints,
+  validateImportData,
 } from '../features/endpoints';
 import {
   RequestLogPanel,
@@ -17,12 +21,14 @@ export function DashboardPage() {
     endpoints,
     loading,
     error,
+    fetchEndpoints,
     createEndpoint,
     updateEndpoint,
     deleteEndpoint,
     toggleEndpoint,
   } = useEndpoints();
 
+  const { addToast } = useToast();
   const { connected } = useWebSocket();
   const { logs, selectedLog, clearLogs, selectLog, closeDetails } = useRequestLog();
 
@@ -47,24 +53,79 @@ export function DashboardPage() {
 
   const handleSave = useCallback(
     async (data) => {
-      if (editingEndpoint) {
-        await updateEndpoint(editingEndpoint.id, data);
-      } else {
-        await createEndpoint(data);
+      try {
+        if (editingEndpoint) {
+          await updateEndpoint(editingEndpoint.id, data);
+          addToast('success', 'Endpoint updated');
+        } else {
+          await createEndpoint(data);
+          addToast('success', 'Endpoint created');
+        }
+        setShowBuilder(false);
+        setEditingEndpoint(null);
+      } catch (err) {
+        addToast('error', err.message || 'Failed to save endpoint');
       }
-      setShowBuilder(false);
-      setEditingEndpoint(null);
     },
-    [editingEndpoint, createEndpoint, updateEndpoint]
+    [editingEndpoint, createEndpoint, updateEndpoint, addToast]
   );
 
   const handleDelete = useCallback(
     async (id) => {
       if (window.confirm('Are you sure you want to delete this endpoint?')) {
-        await deleteEndpoint(id);
+        try {
+          await deleteEndpoint(id);
+          addToast('success', 'Endpoint deleted');
+        } catch (err) {
+          addToast('error', err.message || 'Failed to delete endpoint');
+        }
       }
     },
-    [deleteEndpoint]
+    [deleteEndpoint, addToast]
+  );
+
+  const handleToggle = useCallback(
+    async (id) => {
+      try {
+        const ep = await toggleEndpoint(id);
+        addToast('info', `Endpoint ${ep.enabled ? 'enabled' : 'disabled'}`);
+      } catch (err) {
+        addToast('error', err.message || 'Failed to toggle endpoint');
+      }
+    },
+    [toggleEndpoint, addToast]
+  );
+
+  const handleExport = useCallback(() => {
+    exportEndpoints(endpoints);
+    addToast('success', `Exported ${endpoints.length} endpoint(s)`);
+  }, [endpoints, addToast]);
+
+  const handleImport = useCallback(
+    async (file) => {
+      try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+        const result = validateImportData(data);
+
+        if (!result.valid) {
+          addToast('error', result.error);
+          return;
+        }
+
+        const response = await endpointsApi.import(result.endpoints);
+        await fetchEndpoints();
+
+        if (response.errors.length > 0) {
+          addToast('info', `Imported ${response.created.length}, ${response.errors.length} failed`);
+        } else {
+          addToast('success', `Imported ${response.created.length} endpoint(s)`);
+        }
+      } catch (err) {
+        addToast('error', err.message || 'Failed to import endpoints');
+      }
+    },
+    [addToast, fetchEndpoints]
   );
 
   return (
@@ -77,7 +138,10 @@ export function DashboardPage() {
           onAdd={handleAdd}
           onEdit={handleEdit}
           onDelete={handleDelete}
-          onToggle={toggleEndpoint}
+          onToggle={handleToggle}
+          onRetry={fetchEndpoints}
+          onImport={handleImport}
+          onExport={handleExport}
         />
       </main>
 

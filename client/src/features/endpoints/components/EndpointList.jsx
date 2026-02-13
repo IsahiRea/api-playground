@@ -11,6 +11,9 @@ export function EndpointList({
   onDelete,
   onToggle,
   onAdd,
+  onRetry,
+  onImport,
+  onExport,
 }) {
   if (loading) {
     return (
@@ -24,6 +27,15 @@ export function EndpointList({
     return (
       <div className="endpoint-list endpoint-list--error">
         <p>Error: {error}</p>
+        {onRetry && (
+          <button
+            type="button"
+            className="endpoint-list__retry-btn"
+            onClick={onRetry}
+          >
+            Retry
+          </button>
+        )}
       </div>
     );
   }
@@ -32,13 +44,39 @@ export function EndpointList({
     <div className="endpoint-list">
       <div className="endpoint-list__header">
         <h2 className="endpoint-list__title">Mock Endpoints</h2>
-        <button
-          type="button"
-          className="endpoint-list__add-btn"
-          onClick={onAdd}
-        >
-          + Add Endpoint
-        </button>
+        <div className="endpoint-list__toolbar">
+          {onImport && (
+            <label className="endpoint-list__toolbar-btn endpoint-list__toolbar-btn--secondary">
+              Import
+              <input
+                type="file"
+                accept=".json"
+                className="endpoint-list__file-input"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) onImport(file);
+                  e.target.value = '';
+                }}
+              />
+            </label>
+          )}
+          {onExport && endpoints.length > 0 && (
+            <button
+              type="button"
+              className="endpoint-list__toolbar-btn endpoint-list__toolbar-btn--secondary"
+              onClick={onExport}
+            >
+              Export
+            </button>
+          )}
+          <button
+            type="button"
+            className="endpoint-list__add-btn"
+            onClick={onAdd}
+          >
+            + Add Endpoint
+          </button>
+        </div>
       </div>
 
       {endpoints.length === 0 ? (

@@ -98,23 +98,40 @@
   position: fixed;
   inset: 0;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  padding: var(--space-4);
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 100;
 }
 
 .dashboard__modal {
   width: 100%;
-  max-width: 600px;
-  max-height: 90vh;
   overflow-y: auto;
+}
+
+.dashboard__modal .endpoint-builder {
+  border-radius: 0;
+  min-height: 100%;
 }
 
 @media (min-width: 768px) {
   .dashboard__main {
     padding: var(--space-6);
+  }
+
+  .dashboard__modal-overlay {
+    align-items: center;
+    padding: var(--space-4);
+  }
+
+  .dashboard__modal {
+    max-width: 600px;
+    max-height: 90vh;
+  }
+
+  .dashboard__modal .endpoint-builder {
+    border-radius: var(--radius-lg);
+    min-height: auto;
   }
 }
 

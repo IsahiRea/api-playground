@@ -8,6 +8,8 @@ export const API_ENDPOINTS = {
   ENDPOINT: (id) => `${API_BASE}/api/endpoints/${id}`,
   TOGGLE_ENDPOINT: (id) => `${API_BASE}/api/endpoints/${id}/toggle`,
 
+  IMPORT_ENDPOINTS: `${API_BASE}/api/endpoints/import`,
+
   // Faker
   FAKER_PREVIEW: `${API_BASE}/api/faker/preview`,
   FAKER_METHODS: `${API_BASE}/api/faker/methods`,

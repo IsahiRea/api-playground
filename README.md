@@ -26,6 +26,8 @@ API Playground removes this friction. Point, click, mock.
 
 - **Built-in API Tester** — Test your mocks without leaving the browser.
 
+- **Import/Export** — Share endpoint collections as JSON files. Export strips server-generated fields for portability.
+
 ## Quick Start
 
 ```bash
@@ -100,15 +102,15 @@ npm run build        # Production build (client)
 
 ## Project Status
 
-**In Development** — Core workflow is functional: create endpoints, see requests in real-time, inspect full details.
+**Complete** — All core features implemented and polished.
 
 - [x] Phase 1: Project setup + design system
 - [x] Phase 2: Backend core (CRUD, mock routing, request capture)
 - [x] Phase 3: Endpoint management UI
 - [x] Phase 4: Real-time request logging
-- [ ] Phase 5: Faker.js integration
-- [ ] Phase 6: API tester feature
-- [ ] Phase 7: Polish + deploy
+- [x] Phase 5: Faker.js integration
+- [x] Phase 6: API tester feature
+- [x] Phase 7: Polish (toasts, error boundary, import/export, mobile refinements)
 
 ---
 
