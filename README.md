@@ -99,6 +99,7 @@ npm run build        # Production build (client)
 | [Architecture](docs/ARCHITECTURE.md) | System design, data models, API surface |
 | [Implementation Plan](docs/IMPLEMENTATION-PLAN.md) | Phased build plan with progress tracking |
 | [Insights](docs/INSIGHTS.md) | Patterns, trade-offs, and lessons learned |
+| [Execution Flows](docs/EXECUTION-FLOW.md) | Step-by-step code path traces for key operations |
 
 ## Project Status
 

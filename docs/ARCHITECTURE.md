@@ -7,7 +7,8 @@ api-playground/
 ├── docs/                      # Project documentation
 │   ├── PRD.md                 # Product Requirements Document
 │   ├── IMPLEMENTATION-PLAN.md # Technical implementation plan
-│   └── ARCHITECTURE.md        # System design & data models
+│   ├── ARCHITECTURE.md        # System design & data models
+│   └── EXECUTION-FLOW.md     # Step-by-step code path traces
 │
 ├── client/                    # React frontend
 │   ├── src/
