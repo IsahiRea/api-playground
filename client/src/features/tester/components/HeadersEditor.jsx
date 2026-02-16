@@ -1,3 +1,4 @@
+import { Plus, X } from 'lucide-react';
 import './HeadersEditor.css';
 
 const PRESETS = [
@@ -36,7 +37,8 @@ export function HeadersEditor({ headers, onChange }) {
           type="button"
           onClick={addHeader}
         >
-          + Add
+          <Plus size={14} />
+          Add
         </button>
       </div>
 
@@ -76,7 +78,7 @@ export function HeadersEditor({ headers, onChange }) {
               onClick={() => removeHeader(header.id)}
               aria-label="Remove header"
             >
-              &times;
+              <X size={16} />
             </button>
           </div>
         ))}

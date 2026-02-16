@@ -13,7 +13,7 @@
   letter-spacing: 0.025em;
   color: var(--method-color);
   background-color: color-mix(in srgb, var(--method-color) 12%, transparent);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
 }
 
 @media (min-width: 768px) {

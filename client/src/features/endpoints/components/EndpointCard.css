@@ -8,11 +8,11 @@
   background-color: var(--color-bg-elevated);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  transition: box-shadow var(--transition-fast), opacity var(--transition-fast);
+  transition: border-color var(--transition-fast), opacity var(--transition-fast);
 }
 
 .endpoint-card:hover {
-  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-strong);
 }
 
 .endpoint-card--disabled {
@@ -38,6 +38,7 @@
 }
 
 .endpoint-card__name {
+  font-family: var(--font-display);
   font-size: var(--text-base);
   font-weight: var(--font-medium);
   color: var(--color-text);
@@ -59,7 +60,7 @@
 .endpoint-card__toggle input {
   width: 1rem;
   height: 1rem;
-  accent-color: var(--color-primary-600);
+  accent-color: var(--color-primary-500);
 }
 
 .endpoint-card__toggle-label {

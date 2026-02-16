@@ -1,5 +1,6 @@
 // EndpointList - Container for rendering all endpoint cards
 
+import { Upload, Plus } from 'lucide-react';
 import { EndpointCard } from './EndpointCard';
 import './EndpointList.css';
 
@@ -47,6 +48,7 @@ export function EndpointList({
         <div className="endpoint-list__toolbar">
           {onImport && (
             <label className="endpoint-list__toolbar-btn endpoint-list__toolbar-btn--secondary">
+              <Upload size={16} />
               Import
               <input
                 type="file"
@@ -74,7 +76,8 @@ export function EndpointList({
             className="endpoint-list__add-btn"
             onClick={onAdd}
           >
-            + Add Endpoint
+            <Plus size={16} />
+            Add Endpoint
           </button>
         </div>
       </div>

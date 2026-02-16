@@ -41,8 +41,9 @@
 }
 
 .endpoint-list__title {
+  font-family: var(--font-display);
   font-size: var(--text-xl);
-  font-weight: var(--font-semibold);
+  font-weight: var(--font-bold);
   color: var(--color-text);
   margin: 0;
 }
@@ -54,6 +55,9 @@
 }
 
 .endpoint-list__toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
   padding: var(--space-2) var(--space-3);
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
@@ -78,6 +82,9 @@
 }
 
 .endpoint-list__add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
   padding: var(--space-3) var(--space-4);
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
@@ -98,6 +105,7 @@
   text-align: center;
   color: var(--color-text-muted);
   background-color: var(--color-bg-muted);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
 }
 

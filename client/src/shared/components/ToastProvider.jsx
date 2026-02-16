@@ -1,4 +1,5 @@
 import { useReducer, useCallback, useMemo } from 'react';
+import { X } from 'lucide-react';
 import { ToastContext } from './toastContext';
 import './Toast.css';
 
@@ -23,7 +24,7 @@ function Toast({ toast, onDismiss }) {
         onClick={() => onDismiss(toast.id)}
         aria-label="Dismiss"
       >
-        &times;
+        <X size={16} />
       </button>
     </div>
   );
@@ -57,4 +58,3 @@ export function ToastProvider({ children }) {
     </ToastContext.Provider>
   );
 }
-

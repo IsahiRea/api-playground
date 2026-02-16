@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { X } from 'lucide-react';
 import { RequestLogItem } from './RequestLogItem';
 import './RequestLogPanel.css';
 
@@ -36,7 +37,7 @@ export function RequestLogPanel({ logs, connected, onSelect, onClear, onClose })
             </button>
           )}
           <button className="request-log-panel__close" onClick={onClose} type="button" aria-label="Close panel">
-            &times;
+            <X size={18} />
           </button>
         </div>
       </div>

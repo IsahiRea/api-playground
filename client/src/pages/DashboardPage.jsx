@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { Activity } from 'lucide-react';
 import { useToast } from '../shared/components';
 import { endpointsApi } from '../lib/api';
 import {
@@ -169,9 +170,7 @@ export function DashboardPage() {
         type="button"
         aria-label="Open request log"
       >
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-          <path d="M3 4h14M3 8h14M3 12h10M3 16h7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
+        <Activity size={20} />
         {logs.length > 0 && (
           <span className="dashboard__log-fab-badge">{logs.length}</span>
         )}

@@ -1,3 +1,4 @@
+import { Send } from 'lucide-react';
 import { HTTP_METHODS } from '../../../constants/HTTP_METHODS';
 import { API_ENDPOINTS } from '../../../constants/API_ENDPOINTS';
 import './RequestForm.css';
@@ -47,6 +48,7 @@ export function RequestForm({
           type="submit"
           disabled={isLoading || !url.trim()}
         >
+          <Send size={16} />
           {isLoading ? 'Sending...' : 'Send'}
         </button>
       </div>

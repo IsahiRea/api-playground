@@ -1,3 +1,4 @@
+import { X } from 'lucide-react';
 import { MethodBadge } from '../../endpoints';
 import './RequestDetails.css';
 
@@ -56,7 +57,7 @@ export function RequestDetails({ log, onClose }) {
             <span className="request-details__path">{log.fullPath || log.path}</span>
           </div>
           <button className="request-details__close" onClick={onClose} type="button" aria-label="Close details">
-            &times;
+            <X size={20} />
           </button>
         </div>
 
