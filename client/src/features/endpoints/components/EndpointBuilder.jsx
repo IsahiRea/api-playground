@@ -1,6 +1,7 @@
 // EndpointBuilder - Main endpoint creation/edit form
 
 import { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
 import { HTTP_METHODS } from '../../../constants';
 import { ResponseEditor } from './ResponseEditor';
 import './EndpointBuilder.css';
@@ -94,7 +95,7 @@ export function EndpointBuilder({ endpoint, onSave, onCancel }) {
           onClick={onCancel}
           aria-label="Close"
         >
-          &times;
+          <X size={20} />
         </button>
       </div>
 

@@ -1,6 +1,7 @@
 // ResponseEditor - JSON editor for response body with Faker template picker and preview
 
 import { useState, useCallback, useRef } from 'react';
+import { Wand2, Code, Eye } from 'lucide-react';
 import { fakerApi } from '../../../lib/api';
 import { FAKER_TEMPLATE_CATEGORIES } from '../../../constants';
 import './ResponseEditor.css';
@@ -101,6 +102,7 @@ export function ResponseEditor({ value, onChange, placeholder }) {
             className="response-editor__action-btn"
             onClick={() => setShowTemplates((prev) => !prev)}
           >
+            <Wand2 size={14} />
             {showTemplates ? 'Hide Templates' : 'Insert Template'}
           </button>
           <button
@@ -108,6 +110,7 @@ export function ResponseEditor({ value, onChange, placeholder }) {
             className="response-editor__action-btn"
             onClick={formatJson}
           >
+            <Code size={14} />
             Format
           </button>
         </div>
@@ -162,7 +165,8 @@ export function ResponseEditor({ value, onChange, placeholder }) {
           onClick={handlePreview}
           disabled={previewLoading || !value.trim()}
         >
-          {previewLoading ? 'Generating...' : 'Preview Generated Data'}
+          <Eye size={14} />
+          {previewLoading ? 'Generating...' : 'Preview'}
         </button>
       </div>
 

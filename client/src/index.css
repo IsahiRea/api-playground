@@ -1,11 +1,14 @@
 /*
  * CSS Architecture - Layered imports
  *
+ * 0. Fonts: External font imports
  * 1. Tokens: CSS custom properties (design system foundation)
  * 2. Base: Element resets and defaults
  * 3. Utilities: Reusable utility classes
  * 4. Components: Component-specific styles (added per feature)
  */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @import './css/tokens.css';
 @import './css/base.css';

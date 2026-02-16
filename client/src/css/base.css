@@ -22,7 +22,7 @@ html {
 /* Set core body defaults */
 body {
   min-height: 100vh;
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: var(--leading-normal);
   color: var(--color-text);
@@ -68,6 +68,7 @@ h3,
 h4 {
   line-height: var(--leading-tight);
   font-weight: var(--font-semibold);
+  font-family: var(--font-display);
 }
 
 h1 {
@@ -112,7 +113,7 @@ code {
 }
 
 pre {
-  background-color: var(--color-neutral-800);
+  background-color: var(--color-bg-code);
   color: var(--color-neutral-100);
   padding: var(--space-4);
   border-radius: var(--radius-lg);

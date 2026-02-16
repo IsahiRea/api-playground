@@ -15,6 +15,7 @@
 
 .request-form__method {
   padding: var(--space-2) var(--space-3);
+  font-family: var(--font-mono);
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
   color: #fff;
@@ -54,10 +55,14 @@
 }
 
 .request-form__url:focus {
-  border-color: var(--color-primary-400);
+  border-color: var(--color-primary-500);
 }
 
 .request-form__send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
   padding: var(--space-2) var(--space-5);
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
@@ -94,7 +99,7 @@
 }
 
 .request-form__body:focus {
-  border-color: var(--color-primary-400);
+  border-color: var(--color-primary-500);
 }
 
 /* Hint text */
