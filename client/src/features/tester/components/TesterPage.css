@@ -37,10 +37,11 @@
   gap: var(--space-6);
 }
 
-/* Desktop: two-column layout */
+/* Desktop: two-column layout, full width */
 @media (min-width: 1024px) {
   .tester-page {
-    padding: var(--space-6);
+    max-width: none;
+    padding: var(--space-6) var(--space-8);
   }
 
   .tester-page__content {

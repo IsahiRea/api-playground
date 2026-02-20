@@ -85,6 +85,14 @@
   .header__container {
     padding: 0 var(--space-6);
   }
+}
+
+/* Desktop — full-width to match content area */
+@media (min-width: 1024px) {
+  .header__container {
+    max-width: none;
+    padding: 0 var(--space-8);
+  }
 
   .header__title {
     font-size: var(--text-xl);
