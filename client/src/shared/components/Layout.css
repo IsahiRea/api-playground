@@ -27,9 +27,11 @@
   }
 }
 
-/* Desktop */
+/* Desktop — remove max-width so full-width pages (dashboard)
+   can manage their own constraints */
 @media (min-width: 1024px) {
   .layout__content {
-    padding: var(--space-8);
+    max-width: none;
+    padding: 0;
   }
 }
